@@ -22,10 +22,41 @@ def get_current_branch():
         print(f"Error while getting current branch:\n{e.stderr}")
         return None
 
+def ensure_gitignore():
+    """
+    Function to ensure a .gitignore file exists and includes 'gitauto.py'.
+    """
+    gitignore_path = ".gitignore"
+    entry = "gitauto.py"
+
+    try:
+        if not os.path.exists(gitignore_path):
+            # Create .gitignore if it doesn't exist
+            with open(gitignore_path, "w") as f:
+                f.write(entry + "\n")
+            print(f"Created .gitignore and added '{entry}'.")
+        else:
+            # Check if the entry already exists
+            with open(gitignore_path, "r") as f:
+                lines = f.readlines()
+
+            if entry + "\n" not in lines:
+                # Add entry to .gitignore
+                with open(gitignore_path, "a") as f:
+                    f.write(entry + "\n")
+                print(f"Added '{entry}' to .gitignore.")
+            else:
+                print(f"'{entry}' is already in .gitignore.")
+    except Exception as e:
+        print(f"Error ensuring .gitignore: {e}")
+
 def automate_git():
     """
     Function to automate git commands.
     """
+    # Ensure .gitignore includes 'gitauto.py'
+    ensure_gitignore()
+
     # Ask the user for a commit message
     commit_message = input("Enter your commit message (press Enter to use default 'Update files'): ").strip()
 
@@ -57,5 +88,5 @@ def automate_git():
 
 if __name__ == "__main__":
     print("\nGit Automation Script\n")
-    print("This script automates the following steps:\n1. Stages all changes (git add .)\n2. Commits with a custom or default message (git commit)\n3. Pushes to the current branch (git push)")
+    print("This script automates the following steps:\n1. Ensures .gitignore includes 'gitauto.py'\n2. Stages all changes (git add .)\n3. Commits with a custom or default message (git commit)\n4. Pushes to the current branch (git push)")
     automate_git()
