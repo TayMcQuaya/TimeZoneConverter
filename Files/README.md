@@ -36,4 +36,5 @@ The program includes a custom icon (`icon.ico`) for the shortcut.
 
 ## Files
 - `timezone.pyw`: The main program file.
+- `timezone.py`: The program file you can play with.
 - `icon.ico`: The custom icon for the program.
